@@ -74,7 +74,9 @@ public class LoopsInfinityAndBeyond {
 	 */
 	public static String fixFlyingSaucer(String s) {
 	    int openingBracketIndex = s.indexOf('(');
+	    
 	    int closingBracketIndex = s.indexOf(')');
+	    
 	    if (openingBracketIndex == -1 || closingBracketIndex == -1) {
 	        return s;
 	    }
@@ -102,17 +104,52 @@ public class LoopsInfinityAndBeyond {
 	 * @param s
 	 * @return
 	 */
-	public static int countFlyingSaucers(String s) {
-	    int count = 0;
-	    for (int i = 0; i < s.length(); i++) {
-	        char c = s.charAt(i);
-	        if (c == '(' || c == '=') {
-	            continue;
-	        } else if (c == ')') {
-	            count++;
+	public static int countFlyingSaucers(String str) {
+	    int saucerCount;
+	    int totalSaucerCount;
+	    
+	    saucerCount = 0;
+	    totalSaucerCount = 0;
+	    
+	    int i = 0;
+	    while (i < str.length()) {
+	        if (str.charAt(i) == '(') {
+	            int j = i + 1;
+	            while (j < str.length() && str.charAt(j) == '=') {
+	                j++;
+	            }
+	            if (j < str.length() && str.charAt(j) == ')') {
+	                saucerCount++;
+	                i = j + 1;
+	            } else {
+	                i++;
+	            }
+	        } else {
+	            i++;
 	        }
 	    }
-	    return count;
+
+	    String longStr = str + str;
+
+	    int k = 0;
+	    while (k < longStr.length()) {
+	        if (longStr.charAt(k) == '(') {
+	            int j = k + 1;
+	            while (j < longStr.length() && longStr.charAt(j) == '=') {
+	                j++;
+	            }
+	            if (j < longStr.length() && longStr.charAt(j) == ')') {
+	                totalSaucerCount++;
+	                k = j + 1;
+	            } else {
+	                k++;
+	            }
+	        } else {
+	            k++;
+	        }
+	    }
+	    
+	    return totalSaucerCount - saucerCount;
 	}
 
 
